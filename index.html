@@ -109,10 +109,25 @@ footer{text-align:center;padding:24px;background:var(--tinta);color:var(--turq);
 .store{position:relative;display:inline-flex;align-items:center;gap:12px;margin:6px 8px;padding:11px 22px 11px 16px;border-radius:16px;background:#fff;color:var(--tinta);text-decoration:none;cursor:pointer;text-align:left;transition:transform .2s,box-shadow .2s}
 .store:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(247,201,72,.5)}
 .store span{display:block;line-height:1.15}.store small{display:block;font-size:.72rem;opacity:.7}.store b{font-size:1.1rem}
+#integrantes{background:#fff}
+.plegable{position:relative;overflow:hidden;padding:14px 16px 34px;margin:-14px -16px 0;transition:max-height .7s cubic-bezier(.2,.8,.2,1)}
+.plegable.cerrado::after{content:"";position:absolute;left:0;right:0;bottom:0;height:96px;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 85%);pointer-events:none}
+.miembros{display:grid;grid-template-columns:repeat(auto-fit,112px);gap:24px 18px;justify-content:center;margin:8px auto 0}
+.miembro{margin:0}
+.miembro .foto{width:100%;box-shadow:0 10px 26px rgba(11,143,176,.2);border-bottom:4px solid var(--naranja)}
+.miembro:nth-child(2n) .foto{border-bottom-color:var(--azul)}.miembro:nth-child(3n) .foto{border-bottom-color:var(--lima)}
+.miembro figcaption{margin-top:9px;font-weight:800;color:var(--azul2);font-size:.95rem;line-height:1.25}
+.subt{font-size:clamp(1.4rem,4vw,1.9rem);color:var(--naranja);max-width:34ch;margin:50px auto 6px}
+.iglesias{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:22px;text-align:left}
+.igl{background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 10px 28px rgba(11,143,176,.14);border-left:6px solid var(--azul)}
+.igl:nth-child(2n){border-left-color:var(--naranja)}.igl:nth-child(3n){border-left-color:var(--lima)}
+.igl b{display:block;font:700 1.12rem/1.25 'Playfair Display',serif;color:var(--azul2);margin-bottom:4px}
+.igl span{font-size:.95rem;opacity:.85}
+.vermas{margin-top:8px}
 </style>
 </head>
 <body>
-<nav><a href="#inicio">Inicio</a><a href="#quienes">Quiénes somos</a><a href="#actividades">Actividades</a><a href="#redes">Videos</a><a href="#radio">Radio de Fuego</a><a href="#app">App</a><a href="#apoyo">Apóyanos</a><a href="#invitar">Invita a G.U.P</a><a href="#volver">Somos Wilson y María</a></nav>
+<nav><a href="#inicio">Inicio</a><a href="#quienes">Quiénes somos</a><a href="#integrantes">Integrantes</a><a href="#actividades">Actividades</a><a href="#redes">Videos</a><a href="#radio">Radio de Fuego</a><a href="#app">App</a><a href="#apoyo">Apóyanos</a><a href="#invitar">Invita a G.U.P</a><a href="#volver">Somos Wilson y María</a></nav>
 
 <section id="inicio"><div class="wrap">
  <div class="logo rv zoom"><img src="images/gup-logo.jpg" alt="Logo G.U.P Generación de Unción y Poder"></div>
@@ -131,6 +146,16 @@ footer{text-align:center;padding:24px;background:var(--tinta);color:var(--turq);
   <div class="info rv up" style="transition-delay:.36s"><h3>Visión</h3><p>Crear un enlace entre las iglesias cristianas del departamento de Bolívar para compartir el mensaje de Jesús en unidad, unción, poder y gloria para el levantamiento de una generación dispuesta a restaurar y liberar al oprimido en las naciones.</p></div>
   <div class="info rv up" style="transition-delay:.48s"><h3>¿Cómo lo haremos?</h3><p>Crearemos altares de oración y adoración a Dios en los lugares públicos para restaurar y liberar al oprimido.</p></div>
  </div>
+</div></section>
+
+<section id="integrantes"><div class="wrap">
+ <h2 class="rv izq">Integrantes de G.U.P</h2>
+ <div class="plegable cerrado" id="plegable">
+  <div class="miembros" id="miembros"></div>
+  <h3 class="subt" id="subt">Cobertura espiritual de Iglesias cristianas de San Jacinto, Bolívar</h3>
+  <div class="iglesias" id="iglesias"></div>
+ </div>
+ <button type="button" class="btn alt vermas" id="vermas" aria-expanded="false" aria-controls="plegable">Ver más</button>
 </div></section>
 
 <section id="actividades"><div class="wrap">
@@ -158,7 +183,7 @@ footer{text-align:center;padding:24px;background:var(--tinta);color:var(--turq);
 <section id="app"><div class="wrap">
  <span class="pill rv up">Muy pronto</span>
  <h2 class="rv up">Disponible en Android y iOS</h2>
- <p class="lead rv up">Prédicas, adoración, eventos y la radio de fuego de G.U.P en la palma de tu mano. Descarga nuestra app cuando esté lista.</p>
+ <p class="lead rv up">Prédicas, adoración, eventos, G.U.P y la radio de fuego en la palma de tu mano. Descarga nuestra app cuando esté lista.</p>
  <div class="rv zoom">
   <a class="store" data-key="appAndroid"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="#2196f3" d="M3.5 2L13 12 3.5 22z"/><path fill="#00c853" d="M3.5 2L16.5 9.43 13 12z"/><path fill="#ffc107" d="M16.5 9.43L21 12l-4.5 2.57L13 12z"/><path fill="#ea4335" d="M3.5 22L13 12l3.5 2.57z"/></svg><span><small>Descargar para</small><b>Android</b></span></a>
   <a class="store" data-key="appIos"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="#16343d" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><small>Descargar para</small><b>iOS</b></span></a>
@@ -202,9 +227,9 @@ const GRUPOS=[
  {t:"Arpa & Copa",d:"Adorando y alabando a Dios por 12 horas.",items:[{n:"Arpa & Copa",fecha:"Julio 2026",link:"https://youtube.com/playlist?list=PLGprRgffFqEA",pref:"arpa"}]},
  {t:"Evangelismo de Impacto",d:"Lugares visitados.",items:[{lugares:[
   {n:"I.E. Técnica Agrícola",a:"2024 · San Jacinto",link:"https://www.tiktok.com/@generaciondeuncionypoder/video/7545932248584064262"},
-  {n:"I.E. Pio XII",a:"2023 · San Jacinto",link:""},
+  {n:"I.E. Pio XII",a:"2023 · San Jacinto",link:"https://www.instagram.com/p/Cx4MPCmM_Gp/"},
   {n:"I.E. León XIII",a:"San Jacinto",link:"https://www.tiktok.com/@generaciondeuncionypoder/video/7416517898950216965"},
-  {n:"I.T.I Juan Federico Hollman",a:"San Juan Nepomuceno",link:""},
+  {n:"I.T.I Juan Federico Hollman",a:"San Juan Nepomuceno",link:"https://www.instagram.com/p/DKinej0N8mD/"},
   {n:"Policía Nacional de Colombia",a:"San Jacinto",link:"",msg:"Foto no disponible"},
   {n:"Ejército Nacional",a:"San Jacinto",link:"",msg:"Foto no disponible"},
   {n:"Hospitales",a:"San Jacinto",link:""},
@@ -223,6 +248,23 @@ GRUPOS.forEach(g=>{const s=document.createElement('div');s.className='grupo rv u
   else{let f='';for(let i=1;i<=4;i++)f+=`<div class="foto"><span>Foto</span><img src="${FOTOS[it.pref+'-'+i]||'images/'+it.pref+'-'+i+'.webp'}" alt="${it.n}, foto ${i}" loading="lazy" onerror="this.remove()"></div>`;
    h+=`<div class="card"><h4>${it.n}</h4>${it.badge?`<span class="badge">${it.badge}</span>`:''}<p class="fecha">📅 ${it.fecha||'Fecha por confirmar'}</p><div class="fotos">${f}</div>${it.link!==undefined?`<a class="btn sm" data-url="${it.link}">Ver enlace</a>`:''}</div>`}});
  s.innerHTML=h+'</div>';gr.appendChild(s)});
+const MIEMBROS=["Wilson Ariza", "Jose Lora", "María Montes"]; /* Para agregar uno: añade su nombre. Foto opcional: images/integrantes/nombre-apellido.jpg (sin tildes, con guion) */
+const IGLESIAS=[["Iglesia Cristiana Fe, Esperanza y Amor", "Jose Lora"], ["Iglesia Cristiana Comunidad En-Gadi", "Ormel Tortello"], ["Iglesia Evangélica Monte Horeb", "Marcial Díaz"], ["Iglesia Cristiana de Fe y Poder, Soldados del Reino", "Roberto Prenc"], ["Iglesia Cristiana Caminando con Jesús", "Eder Fernández"], ["Iglesia Cristiana Cuadrangular Vino Nuevo", "Víctor Castro"], ["Iglesia Cristiana Casa de Bendición", "Hernán Arias"], ["Iglesia Cristiana Centro Misionero Jerusalén", "Hadith Garrido"], ["Iglesia Cristiana Gloria del Reino", "Juan de Jesús"], ["Iglesia Cristiana Columna de Fuego", "Jesús Alfonso"], ["Iglesia Centro Familiar Cristiano Be-Tel", "Luis Fernando"]];
+(function(){
+ const slug=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+ const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+ document.getElementById('miembros').innerHTML=MIEMBROS.map((n,i)=>`<figure class="miembro rv zoom" style="transition-delay:${i*.08}s"><div class="foto"><span>No disponible</span><img src="images/integrantes/${slug(n)}.jpg" alt="${esc(n)}" loading="lazy" onerror="this.remove()"></div><figcaption>${esc(n)}</figcaption></figure>`).join('');
+ document.getElementById('iglesias').innerHTML=IGLESIAS.map(x=>`<div class="igl"><b>${esc(x[0])}</b><span>Pastor ${esc(x[1])}</span></div>`).join('');
+ const pl=document.getElementById('plegable'),vm=document.getElementById('vermas');let abierto=false;
+ const cerrada=()=>{const p=pl.querySelector('.igl');return Math.min(pl.scrollHeight,p?p.offsetTop+120:pl.scrollHeight)};
+ const fijar=()=>{if(!abierto)pl.style.maxHeight=cerrada()+'px'};
+ fijar();window.addEventListener('load',fijar);window.addEventListener('resize',fijar);
+ vm.addEventListener('click',()=>{
+  abierto=!abierto;vm.setAttribute('aria-expanded',abierto);vm.textContent=abierto?'Ver menos':'Ver más';
+  if(abierto){pl.classList.remove('cerrado');pl.style.maxHeight=pl.scrollHeight+'px';setTimeout(()=>{if(abierto)pl.style.maxHeight='none'},750)}
+  else{pl.style.maxHeight=pl.scrollHeight+'px';pl.getBoundingClientRect();pl.classList.add('cerrado');pl.style.maxHeight=cerrada()+'px';document.getElementById('integrantes').scrollIntoView({behavior:'smooth',block:'start'})}
+ });
+})();
 function soon(el){el.dataset.msg=el.dataset.msg||'Muy pronto';el.classList.add('soon');el.addEventListener('click',e=>{e.preventDefault();el.classList.add('tap');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('tap'),1800)})}
 document.querySelectorAll('[data-key],[data-url]').forEach(a=>{const u=a.dataset.key?LINKS[a.dataset.key]:a.dataset.url;if(u){a.href=u;if(!u.includes('somoswilsonymaria.site')){a.target='_blank';a.rel='noopener'}}else{a.href='#';soon(a)}});
 document.addEventListener('click',e=>{const b=e.target.closest('.btn');if(b&&!b.classList.contains('soon')){const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)/6,d=document.createElement('span');d.className='rip';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(d);setTimeout(()=>d.remove(),600)}

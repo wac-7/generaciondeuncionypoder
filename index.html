@@ -82,6 +82,14 @@ section{padding:76px 20px;position:relative;overflow:hidden}
 .sonando .onda i{animation:bar .9s ease-in-out infinite}.onda i:nth-child(2n){animation-delay:.2s!important}.onda i:nth-child(3n){animation-delay:.4s!important}
 @keyframes bar{50%{height:34px}}
 .play{width:74px;height:74px;border-radius:50%;font-size:1.8rem;padding:0;margin:0}
+.rinfo{margin:20px auto 0;padding:16px 18px;border-radius:18px;background:rgba(6,40,52,.62);border:1px solid rgba(255,255,255,.18);color:#fff;text-align:left;box-shadow:0 14px 34px rgba(0,0,0,.25)}
+.rlive{display:flex;align-items:center;gap:7px;font:800 .7rem/1 Nunito,sans-serif;letter-spacing:.09em;color:var(--amar)}
+.rlive i{width:8px;height:8px;border-radius:50%;background:#ff4d4d;animation:rp 1.4s infinite}
+@keyframes rp{50%{opacity:.25}}
+.rlbl{margin-top:10px;font:800 .68rem/1 Nunito,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.rnow{margin-top:4px;font:700 1.15rem/1.3 'Playfair Display',serif;overflow-wrap:anywhere}
+.rnext{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.2)}
+.rnext b{display:block;margin-top:4px;font:800 .95rem/1.3 Nunito,sans-serif}
 #invitar{background:linear-gradient(180deg,#fff,#fff4e3)}
 .dato{display:block;font:800 1.15rem Nunito;color:var(--azul2);margin:8px 0 18px;word-break:break-all}
 #volver{background:linear-gradient(160deg,#0e1b3a,#1d3a6e);color:#f6f8fc}
@@ -174,9 +182,15 @@ footer{text-align:center;padding:24px;background:var(--tinta);color:var(--turq);
  <h2 class="rv der">Radio de Fuego Cristiana</h2>
  <p class="lead rv der">Escucha Podcast, Música, Predicas y Entrevistas de SomosWilsonyMaría.</p>
  <div class="radio rv zoom" id="radioBox">
-  <div class="portada"><img src="images/radio.jpg" alt="Radio antigua con ondas doradas"><b>Muy pronto</b></div>
+  <div class="portada"><img src="images/radio.jpg" alt="Radio antigua con ondas doradas"></div>
   <div class="onda"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <button class="btn or play" id="play" aria-label="Reproducir">▶</button><audio id="audio" preload="none"></audio>
+  <div class="rinfo" aria-live="polite">
+   <div class="rlive"><i></i> RADIO DE FUEGO · EN VIVO</div>
+   <div class="rlbl">Sonando ahora</div>
+   <div class="rnow" id="rnow">Radio de Fuego</div>
+   <div class="rnext"><span class="rlbl">Más tarde</span><b id="rnext">—</b></div>
+  </div>
  </div>
 </div></section>
 
@@ -215,7 +229,14 @@ footer{text-align:center;padding:24px;background:var(--tinta);color:var(--turq);
 <script>
 /* ENLACES de redes (si uno queda vacío muestra "Muy pronto") */
 const LINKS={youtube:"https://youtube.com/@generaciondeuncionypoder",tiktok:"https://www.tiktok.com/@generaciondeuncionypoder",facebook:"https://www.facebook.com/GeneracionUncionyPoder",instagram:"https://www.instagram.com/generaciondeuncionypoder",somos:"https://somoswilsonymaria.site",paypal:"https://paypal.me/wac11mmd",mercadopago:"",wise:"",nequi:"",appAndroid:"",appIos:""};
-const RADIO_SRC=""; /* URL del mp3 de la radio; vacío = Muy pronto */
+const RADIO_BASE="https://pstnet4.shoutcastnet.com:40184";
+const RADIO_SRC=RADIO_BASE+"/stream";
+/* HORARIO "Más tarde": dias 0=Dom 1=Lun 2=Mar 3=Mié 4=Jue 5=Vie 6=Sáb · hora 24h de Colombia. Cámbialo por tus programas reales. */
+const PROGRAMACION=[
+ {nombre:"Devocional de la mañana",hora:"06:00",dias:[0,1,2,3,4,5,6]},
+ {nombre:"Música de adoración",hora:"12:00",dias:[0,1,2,3,4,5,6]},
+ {nombre:"Noche de oración",hora:"20:00",dias:[1,3,5]}
+];
 /* ACTIVIDADES. Fotos: súbelas a images/ con el nombre indicado en "pref" (pref-1.jpg a pref-4.jpg). fecha y link: llénalos cuando los tengas. */
 const FOTOS={};
 const GRUPOS=[
@@ -274,9 +295,37 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const hero=document.getElementById('inicio');
 for(let i=0;i<18;i++){const c=document.createElement('i'),s=4+Math.random()*8;c.className='chispa';c.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*25}%;animation-duration:${5+Math.random()*5}s;animation-delay:${Math.random()*6}s`;hero.appendChild(c)}
 const play=document.getElementById('play'),audio=document.getElementById('audio'),box=document.getElementById('radioBox');
-if(RADIO_SRC)audio.src=RADIO_SRC;else soon(play);
-play.addEventListener('click',()=>{if(!RADIO_SRC)return;if(audio.paused){audio.play();play.textContent='❚❚';box.classList.add('sonando')}else{audio.pause();play.textContent='▶';box.classList.remove('sonando')}});
-audio.addEventListener('ended',()=>{play.textContent='▶';box.classList.remove('sonando')});
+const rnow=document.getElementById('rnow'),rnext=document.getElementById('rnext');
+if(!RADIO_SRC)soon(play);
+function radioStop(){audio.pause();audio.removeAttribute('src');audio.load();play.textContent='▶';box.classList.remove('sonando')}
+play.addEventListener('click',()=>{if(!RADIO_SRC)return;
+ if(audio.paused||!audio.getAttribute('src')){audio.src=RADIO_SRC+'?t='+Date.now();audio.play().then(()=>{play.textContent='❚❚';box.classList.add('sonando')}).catch(radioStop);leerAhora()}
+ else{radioStop()}});
+audio.addEventListener('error',()=>{if(audio.getAttribute('src'))radioStop()});
+audio.addEventListener('ended',radioStop);
+
+function limpiar(t){return String(t||'').replace(/\.(mp3|m4a|flac|ogg|mp4|webm|mkv)$/i,'').replace(/_/g,' ').trim()}
+function mostrar(t){t=limpiar(t);if(/[<>]/.test(t))t='';rnow.textContent=t||'Radio de Fuego'}
+function leerAhora(){if(!RADIO_SRC)return;
+ /* Shoutcast v1: /7.html = "oyentes,estado,pico,max,unicos,bitrate,TITULO" (dentro de un html mínimo) */
+ fetch(RADIO_BASE+'/7.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{
+  const c=t.replace(/<[^>]*>/g,'').trim();
+  if(!/^\d+,\d+,\d+,\d+,\d+,\d+,/.test(c))throw 0;
+  mostrar(c.split(',').slice(6).join(','))})
+ .catch(()=>fetch(RADIO_BASE+'/stats?sid=1&json=1',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>mostrar(d.songtitle))
+ .catch(()=>mostrar('')))}
+
+const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+function ahoraCO(){const o={};new Intl.DateTimeFormat('en-US',{timeZone:'America/Bogota',hour12:false,weekday:'short',hour:'2-digit',minute:'2-digit'}).formatToParts(new Date()).forEach(x=>o[x.type]=x.value);
+ return{dia:{Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[o.weekday],min:(parseInt(o.hour,10)%24)*60+parseInt(o.minute,10)}}
+function fmtHora(h){const[a,m]=h.split(':'),n=parseInt(a,10);return(n%12||12)+':'+m+' '+(n>=12?'p. m.':'a. m.')}
+function pintarProximo(){const n=ahoraCO();let best=null;
+ PROGRAMACION.forEach(e=>{const[a,b]=e.hora.split(':'),m=parseInt(a,10)*60+parseInt(b,10);
+  e.dias.forEach(d=>{let t=((d-n.dia+7)%7)*1440+(m-n.min);if(t<=0)t+=10080;if(!best||t<best.t)best={t,e,d}})});
+ if(!best){rnext.textContent='—';return}
+ const cuando=best.t<1440&&best.d===n.dia?'Hoy':(best.d===(n.dia+1)%7&&best.t<2880?'Mañana':DIAS[best.d][0].toUpperCase()+DIAS[best.d].slice(1));
+ rnext.textContent=best.e.nombre+' · '+cuando+' '+fmtHora(best.e.hora)}
+leerAhora();pintarProximo();setInterval(leerAhora,15000);setInterval(pintarProximo,60000);
 </script>
 </body>
 </html>
